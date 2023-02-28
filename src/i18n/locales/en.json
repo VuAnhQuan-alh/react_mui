@@ -1,0 +1,11 @@
+{
+  "schema": {
+    "required": "Required",
+    "validEmail": "Email must be a valid email",
+    "validPhone": "Phone must be a valid phone",
+    "trim": "Leading and trailing spaces must not be included",
+    "invalidDate": "Date must be a valid date",
+    "maxLength": "Max length size is 255 characters",
+    "invalidNumber": "Number must be a valid number"
+  }
+}

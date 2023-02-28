@@ -1,0 +1,11 @@
+{
+  "schema": {
+    "required": "Bắt buộc",
+    "validEmail": "Email không hợp lệ",
+    "validPhone": "Số điện thoại không hợp lệ",
+    "trim": "Không được bao gồm khoảng trắng đầu và cuối",
+    "invalidDate": "Ngày không hợp lệ",
+    "maxLength": "Độ dài tối đa là 255 ký tự",
+    "invalidNumber": "Số không hợp lệ"
+  }
+}
