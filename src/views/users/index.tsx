@@ -24,15 +24,13 @@ const UsersManage = () => {
   useEffect(() => {
     setPerson(() => {
       return DATA.slice((filters.page - 1) * filters.pageSize, filters.page * filters.pageSize);
-      // return [];
     });
   }, [filters, DATA]);
 
   const handleSearch = () => {
     setLoading(true);
-    filterRef.current?.submit({});
     Await(1000).finally(() => {
-      console.log('fil');
+      filterRef.current?.submit({});
       setLoading(false);
     });
   };
