@@ -5,6 +5,7 @@ import TodayIcon from '@mui/icons-material/Today';
 import EventIcon from '@mui/icons-material/Event';
 import ProLabel from './ProLabel';
 import { DateFormat } from '@/constants/locale';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   name: string;
@@ -20,6 +21,7 @@ interface Props {
 
 const ProDate = (props: Props) => {
   const { name, label, type, disabled, required, onSelect, TextFieldProps, DatePickerProps, shouldDisableDate } = props;
+  const { t } = useTranslation();
 
   const { control } = useFormContext();
   const {
@@ -46,7 +48,7 @@ const ProDate = (props: Props) => {
               fullWidth
               size="small"
               error={Boolean(error)}
-              helperText={error?.message && error.message}
+              helperText={error?.message && t(error.message)}
               id={name}
             />
           );

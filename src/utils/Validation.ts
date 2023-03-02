@@ -50,7 +50,7 @@ class Validation {
     return object().shape<T>(additions, excludes);
   }
   public string() {
-    return string().ensure().required().max(255).trim().default('');
+    return string().ensure().max(255).trim().default('');
   }
   public number() {
     return number();
