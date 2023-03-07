@@ -2,6 +2,7 @@
   "schema": {
     "required": "Required",
     "validEmail": "Email must be a valid email",
+    "validSelect": "Field must be a options",
     "validPhone": "Phone must be a valid phone",
     "trim": "Leading and trailing spaces must not be included",
     "invalidDate": "Date must be a valid date",

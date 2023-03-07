@@ -7,6 +7,7 @@ const Index = <T extends object>(page: number, pageSize: number) => {
     cell: ({ row }) => row.index + 1 + (page - 1) * pageSize,
     meta: {
       title: 'STT',
+      align: 'center',
     },
   };
 

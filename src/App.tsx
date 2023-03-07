@@ -1,5 +1,3 @@
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -8,30 +6,45 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import enLocale from 'date-fns/locale/en-US';
 // import { DateTimeLocaleText } from './constants/locale';
 import { ColorModeContext, useMode } from './theme';
-import { UsersPage } from './views';
+import { HelmetProvider } from 'react-helmet-async';
+import { AuthConsumer, AuthProvider } from './contexts/Auth';
+import routes from '@/routers';
+import { RouterProvider } from 'react-router-dom';
+import SplashScreen from '@/components/SplashScreen';
+import { UsersProvider } from './contexts/Users';
+// import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+// const queryClient = new QueryClient();
 
 function App() {
   const [theme, colorMode] = useMode();
 
   return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <LocalizationProvider
-          dateAdapter={AdapterDateFns}
-          adapterLocale={enLocale}
-          // localeText={DateTimeLocaleText}
-        >
-          <CssBaseline enableColorScheme />
-          <Container maxWidth="lg">
-            <Typography variant="h5" color="blue.800">
-              hello world!
-            </Typography>
+    // <QueryClientProvider client={queryClient}>
+    <HelmetProvider>
+      <AuthProvider>
+        <ColorModeContext.Provider value={colorMode}>
+          <ThemeProvider theme={theme}>
+            <LocalizationProvider
+              dateAdapter={AdapterDateFns}
+              adapterLocale={enLocale}
+              // localeText={DateTimeLocaleText}
+            >
+              <CssBaseline enableColorScheme />
 
-            <UsersPage />
-          </Container>
-        </LocalizationProvider>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
+              <UsersProvider>
+                <AuthConsumer>
+                  {(auth) => (!auth || !auth.isInitiallized ? <SplashScreen /> : <RouterProvider router={routes} />)}
+                </AuthConsumer>
+              </UsersProvider>
+            </LocalizationProvider>
+          </ThemeProvider>
+        </ColorModeContext.Provider>
+      </AuthProvider>
+    </HelmetProvider>
+    // <ReactQueryDevtools initialIsOpen />
+    // </QueryClientProvider>
   );
 }
 

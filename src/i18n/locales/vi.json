@@ -2,6 +2,7 @@
   "schema": {
     "required": "Bắt buộc",
     "validEmail": "Email không hợp lệ",
+    "validSelect": "Nên lựa chọn giá trị",
     "validPhone": "Số điện thoại không hợp lệ",
     "trim": "Không được bao gồm khoảng trắng đầu và cuối",
     "invalidDate": "Ngày không hợp lệ",

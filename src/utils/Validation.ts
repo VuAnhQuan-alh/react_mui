@@ -3,7 +3,9 @@ import {
   mixed,
   array,
   date,
+  ref,
   number,
+  boolean,
   object,
   string,
   type ValidationError,
@@ -25,11 +27,17 @@ class Validation {
     });
   }
 
+  public ref(type: string) {
+    return ref(type);
+  }
   public mixed() {
     return mixed();
   }
   public array() {
     return array();
+  }
+  public boolean() {
+    return boolean();
   }
   public resolver(error: ValidationError) {
     return error.message;
@@ -56,7 +64,7 @@ class Validation {
     return number();
   }
   public select(value: number) {
-    return number().required().default(value);
+    return number().required().typeError('schema.validSelect').default(value);
   }
   public date() {
     return date().required().typeError('schema.invalidDate').nullable().default(null);

@@ -1,7 +1,10 @@
+import useProfiles from '@/hooks/useProfiles';
 import { useState } from 'react';
 import { IFiltersParams } from './type';
 
 export const useFilters = () => {
+  const { meta } = useProfiles();
+
   const [filters, setFilters] = useState<IFiltersParams>({
     query: '',
     date: null,
@@ -11,8 +14,8 @@ export const useFilters = () => {
 
     sortBy: '',
     sortDirection: '',
-    pageSize: 10,
-    page: 1,
+    pageSize: meta.pageSize,
+    page: meta.page,
   });
 
   const onPageChange = (page: number) => {

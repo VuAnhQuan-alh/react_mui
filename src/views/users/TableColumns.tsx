@@ -1,3 +1,4 @@
+import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
@@ -9,6 +10,15 @@ import Index from '@/components/pro-table/core/Index';
 import type { IProColumn, HeadCell } from '@/components/pro-table/types';
 import type { IPerson } from './utils/type';
 import { useMemo } from 'react';
+import DateFns from '@/utils/DateFns';
+import { styled } from '@mui/material/styles';
+
+const Badge = styled(Box)`
+  px: 2,
+  py: 0.5,
+  border-radius: 4px,
+  font-weight: 600,
+`;
 
 const columnHelper = createColumnHelper<IPerson>();
 
@@ -19,6 +29,7 @@ const HEAD_CELLS: HeadCell<IPerson> = {
   email: 'Email',
   gender: 'Gender',
   avatar: 'Avatar',
+  phone_number: 'Phone number',
   date_of_birth: 'Birthday',
   address: 'Address',
   role: 'Permission',
@@ -71,8 +82,16 @@ const useTableColumns = (props: IProps) => {
         },
       }),
 
-      columnHelper.accessor('date_of_birth', {
+      columnHelper.accessor('phone_number', {
         cell: (info) => info.getValue(),
+        header: () => HEAD_CELLS.phone_number,
+        meta: {
+          title: HEAD_CELLS.phone_number,
+        },
+      }),
+
+      columnHelper.accessor('date_of_birth', {
+        cell: (info) => DateFns.Format(info.getValue()),
         header: () => HEAD_CELLS.date_of_birth,
         meta: {
           title: HEAD_CELLS.date_of_birth,
@@ -96,10 +115,16 @@ const useTableColumns = (props: IProps) => {
       }),
 
       columnHelper.accessor('confirmed', {
-        cell: (info) => (info.getValue() ? 'Active' : 'Inactive'),
+        cell: (info) =>
+          info.getValue() ? (
+            <Badge sx={{ backgroundColor: 'green.500' }}>Active</Badge>
+          ) : (
+            <Badge sx={{ backgroundColor: 'pink.500' }}>Inactive</Badge>
+          ),
         header: () => HEAD_CELLS.confirmed,
         meta: {
           title: HEAD_CELLS.confirmed,
+          align: 'center',
         },
       }),
 

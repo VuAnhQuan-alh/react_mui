@@ -8,6 +8,7 @@ import PlaceHolder from './PlaceHolder';
 import ProLabel from './ProLabel';
 import Typography from '@mui/material/Typography';
 import FormHelperText from '@mui/material/FormHelperText';
+import { useTranslation } from 'react-i18next';
 
 interface Value<T> {
   key: string | number;
@@ -48,6 +49,8 @@ const ProSelect = <O extends FieldValues, V extends string | number>(props: Prop
     required,
     ...rest
   } = props;
+
+  const { t } = useTranslation();
 
   const scrollbar = useScrollbar();
   const { control } = useFormContext();
@@ -98,14 +101,18 @@ const ProSelect = <O extends FieldValues, V extends string | number>(props: Prop
             onChange(event);
             onSelect?.(event.target.value as V);
           }}
+          disabled={disabled}
         >
           {options.length > 0 && placeholder && (
             <PlainMenuItem value={-1} sx={{ display: 'none' }}>
               {placeholder}
             </PlainMenuItem>
           )}
+
           {!options.length && !actionText && <PlainMenuItem value={-1}>No Options</PlainMenuItem>}
+
           {!options.length && actionText && <PlainMenuItem value={-1}>{actionText}</PlainMenuItem>}
+
           {entries.map((entry) => {
             const { value, label, disabled, key } = entry;
             return (
@@ -115,7 +122,8 @@ const ProSelect = <O extends FieldValues, V extends string | number>(props: Prop
             );
           })}
         </Select>
-        {error?.message && <FormHelperText variant="outlined">{error.message}</FormHelperText>}
+
+        {error?.message && <FormHelperText variant="outlined">{t(error.message)}</FormHelperText>}
       </FormControl>
     </ProLabel>
   );
