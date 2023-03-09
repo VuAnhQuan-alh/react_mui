@@ -118,6 +118,7 @@ const AuthProvider = (props: IProps) => {
       isInitiallized: true,
       user: null,
     });
+    refetch();
   };
 
   const changePass = async (data: IValuesForm) => {

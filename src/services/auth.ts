@@ -45,15 +45,15 @@ const signUp = (params: RegisterParams) => {
 const localProfile = () => {
   const query = qs.stringify(
     {
-      populate: ['person_profile', 'person_profile.avatar', 'role'],
+      populate: ['person_profile.avatar', 'role'],
     },
     { encodeValuesOnly: true },
   );
   return HttpClient.get<null, any>(`${API_PROFILE}?${query}`);
 };
 
-const createProfile = (data: ProfileParams) => {
-  return HttpClient.post<typeof data, any>(API_CREATE_PROFILE, data);
+const createProfile = (data: any) => {
+  return HttpClient.post<any, any>(`${API_CREATE_PROFILE}`, { data });
 };
 
 const changePassword = (data: IValuesForm) => {

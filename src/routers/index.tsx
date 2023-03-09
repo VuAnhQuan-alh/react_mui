@@ -13,6 +13,7 @@ const ProfilePage = Loadable(lazy(() => import('@/views/profile')));
 const ChangePasswordPage = Loadable(lazy(() => import('@/views/profile/change-pass')));
 
 const ManagerUsers = Loadable(lazy(() => import('@/views/users')));
+const ManagerVideos = Loadable(lazy(() => import('@/views/videos')));
 
 const routes: RouteObject[] = [
   {
@@ -61,6 +62,7 @@ const routes: RouteObject[] = [
           </ProtectedRoute>
         ),
         children: [
+          { index: true, element: <>true page</> },
           { path: 'home', element: <>home page</> },
           { path: 'profile', element: <ProfilePage /> },
           { path: 'change-password', element: <ChangePasswordPage /> },
@@ -77,8 +79,9 @@ const routes: RouteObject[] = [
         ),
         children: [
           { path: 'users', element: <ManagerUsers /> },
-          { path: 'videos', element: <>videos component</> },
+          { path: 'videos', element: <ManagerVideos /> },
           { path: 'songs', element: <>songs component</> },
+          { path: 'posts', element: <>posts component</> },
         ],
       },
     ],

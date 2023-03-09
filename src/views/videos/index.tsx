@@ -1,46 +1,53 @@
 import Box from '@mui/material/Box';
-import ProTable from '@/components/pro-table';
-import { Fragment, useEffect, useRef, useState } from 'react';
-import FiltersForm from './FiltersForm';
+import { FiltersRef } from '@/components/pro-table/types';
+import useVideo from '@/hooks/useVideo';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import useTableColumns from './TableColumns';
 import { useFilters } from './utils/filters';
-import ActionButton from '@/components/pro-button/ActionButton';
-import type { FiltersRef } from '@/components/pro-table/types';
 import { Await } from '@/hooks/useAwait';
-import useProfiles from '@/hooks/useProfiles';
+import ProTable from '@/components/pro-table';
+import FiltersForm from './FiltersForm';
+import ActionButton from '@/components/pro-button/ActionButton';
+import ModalVideo from './ModalVideo';
 
-const UsersManage = () => {
-  const { list, meta, filtersProfile } = useProfiles();
+const VideoManager = () => {
+  const { list, meta } = useVideo();
   const { page, pageSize, total } = meta;
 
   const [loading, setLoading] = useState<boolean>(false);
   const filterRef = useRef<FiltersRef | null>(null);
+  const [open, setOpen] = useState<boolean>(false);
 
   const { filters, onPageChange, onPageSizeChange, onSearch } = useFilters();
   const { columns } = useTableColumns({ page, pageSize });
 
   const handleSearch = () => {
     setLoading(true);
+
     Await(1000).finally(() => {
       filterRef.current?.submit({});
       setLoading(false);
     });
   };
-
   const handleCancel = () => {
     filterRef.current?.reset();
   };
 
+  const handleOpen = useCallback(() => setOpen(true), []);
+  const handleClose = useCallback(() => setOpen(false), []);
+
+  const handleCreateVideo = (data: any) => () => {
+    console.log(data);
+  };
+
   useEffect(() => {
-    filtersProfile(filters);
-    // eslint-disable-next-line
+    // console.log(filters);
   }, [filters]);
 
   return (
     <Box my="62px">
       <ProTable
-        // ref={tableRef}
-        title="Person list:"
+        title="Videos list:"
         loading={loading}
         filter={<FiltersForm onSearch={onSearch} ref={filterRef} />}
         pagination={{ page, pageSize, onPageChange, onPageSizeChange, total }}
@@ -55,11 +62,17 @@ const UsersManage = () => {
             <ActionButton actionType="search" onClick={handleSearch}>
               Search
             </ActionButton>
+
+            <ActionButton actionType="add" onClick={handleOpen}>
+              Create
+            </ActionButton>
           </Fragment>
         }
       />
+
+      <ModalVideo open={open} handleClose={handleClose} handleSubmit={handleCreateVideo} />
     </Box>
   );
 };
 
-export default UsersManage;
+export default VideoManager;

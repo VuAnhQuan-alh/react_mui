@@ -1,28 +1,21 @@
-import useProfiles from '@/hooks/useProfiles';
 import { useState } from 'react';
-import { IFiltersParams } from './type';
+import { IFiltersParamsVideo } from './type';
 
 export const useFilters = () => {
-  const { meta } = useProfiles();
-
-  const [filters, setFilters] = useState<IFiltersParams>({
-    full_name: '',
-    date: null,
-    role: -1,
-    confirmed: -1,
-    gender: -1,
+  const [filters, setFilters] = useState<IFiltersParamsVideo>({
+    content: '',
+    public: -1,
+    from: null,
+    to: null,
 
     sortBy: '',
     sortDirection: '',
-    pageSize: meta.pageSize,
-    page: meta.page,
+    page: 1,
+    pageSize: 25,
   });
 
   const onPageChange = (page: number) => {
-    setFilters((state) => ({
-      ...state,
-      page,
-    }));
+    setFilters((state) => ({ ...state, page }));
   };
 
   const onPageSizeChange = (pageSize: number) => {
@@ -32,7 +25,7 @@ export const useFilters = () => {
     }));
   };
 
-  const onSearch = (params: Partial<IFiltersParams>) => {
+  const onSearch = (params: Partial<IFiltersParamsVideo>) => {
     setFilters((state) => ({
       ...state,
       ...params,

@@ -155,6 +155,9 @@ const ProTable = <T extends object>(props: IProps<T>) => {
                   {headerGroup.headers.map((header) => {
                     const { align } = header.column.columnDef.meta || {};
                     const offset = header.getStart();
+                    const width = header.getSize();
+                    const maxWidth = header.column.columnDef.maxSize;
+                    const minWidth = header.column.columnDef.minSize;
 
                     return (
                       <ProTableCell
@@ -163,7 +166,7 @@ const ProTable = <T extends object>(props: IProps<T>) => {
                         cellHeader
                         align={align}
                         fixed={header.column.getIsPinned()}
-                        sx={{ py: 2 }}
+                        sx={{ py: 2, width, maxWidth, minWidth }}
                       >
                         {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                       </ProTableCell>

@@ -10,14 +10,15 @@ import ProSelect from '@/components/pro-form/ProSelect';
 import { forwardRef, useImperativeHandle, ForwardRefRenderFunction } from 'react';
 import { FiltersRef } from '@/components/pro-table/types';
 import ProDate from '@/components/pro-form/ProDate';
+import { ROLES } from '@/constants';
 
 interface IProps {
   onSearch: (params: Partial<IFiltersValues>) => void;
 }
 
 const schema = Validation.shape({
-  query: Validation.string().required(),
-  date: Validation.date().required(),
+  full_name: Validation.string(),
+  date: Validation.date(),
   role: Validation.select(-1),
   confirmed: Validation.select(-1),
   gender: Validation.select(-1),
@@ -42,10 +43,11 @@ const FiltersForm: ForwardRefRenderFunction<FiltersRef, IProps> = (props, ref) =
 
   const handleReset = () => {
     form.reset(schema.getDefault());
+    onSearch(schema.getDefault());
   };
 
   const handleError = (error: any) => {
-    console.log(error);
+    console.log('handle-filters: ', error);
   };
 
   useImperativeHandle(ref, () => ({
@@ -57,7 +59,7 @@ const FiltersForm: ForwardRefRenderFunction<FiltersRef, IProps> = (props, ref) =
     <ProForm form={form} onFinish={handleSubmit} onError={handleError} PaperProps={{ sx: { p: 2 } }}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={9} md={4}>
-          <ProTextField required label="Search person" placeholder="Enter person" name="query" />
+          <ProTextField label="Search person" placeholder="Enter person" name="full_name" />
         </Grid>
 
         <Grid item xs={12} sm={3} md={4}>
@@ -78,11 +80,7 @@ const FiltersForm: ForwardRefRenderFunction<FiltersRef, IProps> = (props, ref) =
             name="role"
             label="Permission"
             placeholder="Select role"
-            options={[
-              { value: -1, label: 'All' },
-              { value: 1, label: 'role one' },
-              { value: 2, label: 'role two' },
-            ]}
+            options={[{ value: -1, label: 'All' }, ...ROLES]}
           />
         </Grid>
 
@@ -100,7 +98,12 @@ const FiltersForm: ForwardRefRenderFunction<FiltersRef, IProps> = (props, ref) =
         </Grid>
 
         <Grid item xs={12} sm={6} md={4}>
-          <ProDate required name="date" label="Birthday" type="start" />
+          <ProDate
+            name="date"
+            label="Birthday"
+            type="start"
+            DatePickerProps={{ inputFormat: 'MM/yyyy', views: ['month', 'year'] }}
+          />
         </Grid>
       </Grid>
     </ProForm>

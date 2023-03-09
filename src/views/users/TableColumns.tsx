@@ -51,6 +51,7 @@ const useTableColumns = (props: IProps) => {
       Index<IPerson>(page, pageSize),
 
       columnHelper.accessor('full_name', {
+        size: 150,
         cell: (info) => info.getValue(),
         header: () => <span>Full name</span>,
         meta: {
@@ -59,6 +60,7 @@ const useTableColumns = (props: IProps) => {
       }),
 
       columnHelper.accessor('avatar', {
+        size: 50,
         cell: (info) => <Avatar src={info.getValue() || void 0} alt="avatar-user" sx={{ width: 40, height: 40 }} />,
         header: () => <span>Avatar</span>,
         meta: {
@@ -67,6 +69,7 @@ const useTableColumns = (props: IProps) => {
       }),
 
       columnHelper.accessor('email', {
+        size: 100,
         cell: (info) => info.getValue(),
         header: () => <span>Email</span>,
         meta: {
@@ -75,6 +78,7 @@ const useTableColumns = (props: IProps) => {
       }),
 
       columnHelper.accessor('gender', {
+        size: 50,
         cell: (info) => info.getValue(),
         header: () => HEAD_CELLS.gender,
         meta: {
@@ -83,6 +87,7 @@ const useTableColumns = (props: IProps) => {
       }),
 
       columnHelper.accessor('phone_number', {
+        size: 70,
         cell: (info) => info.getValue(),
         header: () => HEAD_CELLS.phone_number,
         meta: {
@@ -91,6 +96,7 @@ const useTableColumns = (props: IProps) => {
       }),
 
       columnHelper.accessor('date_of_birth', {
+        size: 70,
         cell: (info) => DateFns.Format(info.getValue()),
         header: () => HEAD_CELLS.date_of_birth,
         meta: {
@@ -99,6 +105,7 @@ const useTableColumns = (props: IProps) => {
       }),
 
       columnHelper.accessor('role', {
+        size: 80,
         cell: (info) => info.getValue(),
         header: () => HEAD_CELLS.role,
         meta: {
@@ -107,6 +114,7 @@ const useTableColumns = (props: IProps) => {
       }),
 
       columnHelper.accessor('address', {
+        size: 150,
         cell: (info) => info.getValue(),
         header: () => HEAD_CELLS.address,
         meta: {
@@ -115,6 +123,7 @@ const useTableColumns = (props: IProps) => {
       }),
 
       columnHelper.accessor('confirmed', {
+        size: 50,
         cell: (info) =>
           info.getValue() ? (
             <Badge sx={{ backgroundColor: 'green.500' }}>Active</Badge>
@@ -130,6 +139,7 @@ const useTableColumns = (props: IProps) => {
 
       {
         id: 'actions',
+        size: 50,
         header: () => <span>Actions</span>,
         cell: () => {
           return (

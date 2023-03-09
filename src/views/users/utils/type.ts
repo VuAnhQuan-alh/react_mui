@@ -17,7 +17,7 @@ export interface IPerson {
 }
 
 export interface IFiltersParams extends PaginationParams {
-  query: string;
+  full_name: string;
   date: string | null;
   role: number;
   confirmed: number;
@@ -25,7 +25,7 @@ export interface IFiltersParams extends PaginationParams {
 }
 
 export interface IFiltersValues {
-  query: string;
+  full_name: string;
   date: string | null;
   role: number;
   confirmed: number;

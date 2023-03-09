@@ -17,11 +17,14 @@ const ProTableCell = styled(TableCell, {
       left: offset,
       boxShadow: '1px 0px 3px -2px rgb(0 0 0 / 20%)',
       zIndex: theme.zIndex.appBar + 1,
+      backgroundColor: theme.palette.common.white,
     }),
+
     ...(fixed === 'right' && {
       right: 0,
       boxShadow: '-1px 0px 3px -2px rgb(0 0 0 / 20%)',
       zIndex: theme.zIndex.appBar + 1,
+      backgroundColor: theme.palette.common.white,
     }),
     ...(cellHeader && {
       zIndex: theme.zIndex.appBar + 2,
@@ -31,10 +34,6 @@ const ProTableCell = styled(TableCell, {
   ...(cellHeader && {
     whiteSpace: 'nowrap',
     backgroundColor: theme.palette.grey[300],
-  }),
-
-  ...(!cellHeader && {
-    backgroundColor: theme.palette.common.white,
   }),
 
   ...(selected && {

@@ -5,3 +5,5 @@ export const API_CREATE_PROFILE = '/person-profiles';
 export const API_CHANGE_PASSWORD = '/auth/change-password';
 
 export const API_LIST_PROFILES = '/person-profiles';
+
+export const API_LIST_VIDEOS = '/videos';

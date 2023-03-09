@@ -12,6 +12,8 @@ import routes from '@/routers';
 import { RouterProvider } from 'react-router-dom';
 import SplashScreen from '@/components/SplashScreen';
 import { UsersProvider } from './contexts/Users';
+import { VideoProvider } from './contexts/Videos';
+import { NotificationProvider } from './contexts/Notification';
 // import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
@@ -33,11 +35,17 @@ function App() {
             >
               <CssBaseline enableColorScheme />
 
-              <UsersProvider>
-                <AuthConsumer>
-                  {(auth) => (!auth || !auth.isInitiallized ? <SplashScreen /> : <RouterProvider router={routes} />)}
-                </AuthConsumer>
-              </UsersProvider>
+              <NotificationProvider>
+                <UsersProvider>
+                  <VideoProvider>
+                    <AuthConsumer>
+                      {(auth) =>
+                        !auth || !auth.isInitiallized ? <SplashScreen /> : <RouterProvider router={routes} />
+                      }
+                    </AuthConsumer>
+                  </VideoProvider>
+                </UsersProvider>
+              </NotificationProvider>
             </LocalizationProvider>
           </ThemeProvider>
         </ColorModeContext.Provider>

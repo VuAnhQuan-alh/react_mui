@@ -1,14 +1,17 @@
-import Avatar from '@mui/material/Avatar';
+import AppBar from '@mui/material/AppBar';
+import Slide from '@mui/material/Slide';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import Icon from '@mui/material/Icon';
 import Link from '@mui/material/Link';
 import Tooltip from '@mui/material/Tooltip';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
 
 import PetsIcon from '@mui/icons-material/Pets';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -16,16 +19,32 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
-import VpnKeyIcon from '@mui/icons-material/VpnKey';
-import WalletIcon from '@mui/icons-material/Wallet';
-import PeopleIcon from '@mui/icons-material/People';
 
 import { Link as ReactLink } from 'react-router-dom';
 import { useColorMode } from '@/theme';
 import { useTheme } from '@mui/material/styles';
 import useAuth from '@/hooks/useAuth';
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, ReactElement } from 'react';
 import ProLink from './pro-com/ProLink';
+import ListMenu from '@/constants/hard-menu';
+import { useScrollTrigger } from '@mui/material';
+
+interface HideProps {
+  window?: () => Window;
+  children: ReactElement;
+}
+const HideOnScroll = (props: HideProps) => {
+  const { children, window } = props;
+  const trigger = useScrollTrigger({
+    target: window ? window() : undefined,
+  });
+
+  return (
+    <Slide appear={false} direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  );
+};
 
 const Navbar = () => {
   const { toggleColorMode } = useColorMode();
@@ -98,59 +117,38 @@ const Navbar = () => {
                 onClose={handleCloseMenu}
                 MenuListProps={{ 'aria-labelledby': 'basic-button', sx: { minWidth: 180 } }}
               >
-                <ProLink to="/profile">
-                  <MenuItem onClick={handleCloseMenu}>
-                    <ListItemIcon>
-                      <Avatar
-                        src={user?.person_profile.avatar?.formats.small.url}
-                        alt="avt-img"
-                        sx={{ width: 30, height: 30 }}
-                      />
-                    </ListItemIcon>
-
-                    <ListItemText>
-                      <Typography fontWeight={600}>Profile</Typography>
-                    </ListItemText>
-                  </MenuItem>
-                </ProLink>
-
-                <ProLink to="/change-password">
-                  <MenuItem onClick={handleCloseMenu}>
-                    <ListItemIcon>
-                      <VpnKeyIcon />
-                    </ListItemIcon>
-
-                    <ListItemText>
-                      <Typography fontWeight={600}>Change password</Typography>
-                    </ListItemText>
-                  </MenuItem>
-                </ProLink>
-
-                <ProLink to="/wallet">
-                  <MenuItem onClick={handleCloseMenu}>
-                    <ListItemIcon>
-                      <WalletIcon />
-                    </ListItemIcon>
-
-                    <ListItemText>
-                      <Typography fontWeight={600}>Wallet</Typography>
-                    </ListItemText>
-                  </MenuItem>
-                </ProLink>
-
-                {user?.role.type === 'authenticated' && (
-                  <ProLink to="/admin/users">
+                {ListMenu.filter((item) => !item.isAdmin).map((item) => (
+                  <ProLink to={item.link} key={item.link}>
                     <MenuItem onClick={handleCloseMenu}>
                       <ListItemIcon>
-                        <PeopleIcon />
+                        <Icon component={item.icon} />
                       </ListItemIcon>
 
                       <ListItemText>
-                        <Typography fontWeight={600}>Manager Users</Typography>
+                        <Typography fontWeight={600}>{item.title}</Typography>
                       </ListItemText>
                     </MenuItem>
                   </ProLink>
-                )}
+                ))}
+
+                {user?.role.type === 'authenticated' && <Divider />}
+
+                {user?.role.type === 'authenticated' &&
+                  ListMenu.filter((item) => item.isAdmin).map((item) => (
+                    <ProLink to={item.link} key={item.link}>
+                      <MenuItem onClick={handleCloseMenu}>
+                        <ListItemIcon>
+                          <Icon component={item.icon} />
+                        </ListItemIcon>
+
+                        <ListItemText>
+                          <Typography fontWeight={600}>{item.title}</Typography>
+                        </ListItemText>
+                      </MenuItem>
+                    </ProLink>
+                  ))}
+
+                <Divider />
 
                 <MenuItem
                   onClick={() => {
